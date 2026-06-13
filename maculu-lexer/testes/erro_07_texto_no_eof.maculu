@@ -1,0 +1,4 @@
+// Teste: string nao terminada no FIM DO FICHEIRO (sem newline final)
+classe TextoEOF {
+    inteiro x = 1;
+    texto t = "esta string comeca mas o ficheiro acaba sem a fechar

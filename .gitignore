@@ -1,0 +1,9 @@
+# Artefactos de compilacao (recriados por build.sh no servidor)
+out/
+*.class
+*.java~
+
+# Lixo de SO / editores
+.DS_Store
+Thumbs.db
+*.swp

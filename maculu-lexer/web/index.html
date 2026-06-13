@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MaculuScript — Analisador Léxico</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1f242e; --line:#2a313d;
+    --txt:#e6e9ef; --muted:#9aa4b2; --accent:#6ea8fe; --accent2:#7ee787;
+    --err:#ff7b72; --kw:#d2a8ff; --num:#79c0ff; --lit:#a5d6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+       background:var(--bg);color:var(--txt)}
+  header{padding:18px 24px;border-bottom:1px solid var(--line);
+         display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  header h1{font-size:18px;margin:0;font-weight:650}
+  header .sub{color:var(--muted);font-size:13px}
+  header .spacer{flex:1}
+  header a,header button.link{color:var(--accent);background:none;border:none;
+         cursor:pointer;font-size:13px;text-decoration:none}
+  main{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px 24px}
+  @media(max-width:900px){main{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+        overflow:hidden;display:flex;flex-direction:column}
+  .card h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+           margin:0;padding:12px 14px;border-bottom:1px solid var(--line);background:var(--panel2)}
+  .card .body{padding:12px 14px;overflow:auto}
+  textarea{width:100%;min-height:340px;resize:vertical;border:none;outline:none;
+           background:#0c0e12;color:var(--txt);font-family:ui-monospace,Consolas,"Courier New",monospace;
+           font-size:14px;line-height:1.5;padding:14px}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;padding:10px 14px;border-top:1px solid var(--line);
+           background:var(--panel2);align-items:center}
+  button.btn{background:var(--accent);color:#06243d;border:none;border-radius:8px;
+             padding:8px 16px;font-weight:650;cursor:pointer;font-size:14px}
+  button.btn:hover{filter:brightness(1.08)}
+  button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line);
+               border-radius:8px;padding:7px 12px;cursor:pointer;font-size:13px}
+  button.ghost:hover{color:var(--txt);border-color:var(--accent)}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;
+        font-size:12.5px;font-weight:600;background:var(--panel2);border:1px solid var(--line)}
+  .pill.ok{color:var(--accent2);border-color:#27432b}
+  .pill.bad{color:var(--err);border-color:#5a2a28}
+  .summary{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);
+        font-family:ui-monospace,Consolas,monospace;white-space:nowrap}
+  th{color:var(--muted);font-weight:600;position:sticky;top:0;background:var(--panel)}
+  tr:hover td{background:#10141b}
+  .tipo{color:var(--kw)}
+  .attr{color:var(--lit)}
+  .erro-item{padding:8px 10px;border-left:3px solid var(--err);background:#1c1416;
+             border-radius:0 8px 8px 0;margin-bottom:8px;font-size:13.5px}
+  .erro-item .pos{color:var(--err);font-weight:650;font-family:ui-monospace,monospace}
+  .muted{color:var(--muted)}
+  .scroll{max-height:380px}
+  .empty{color:var(--muted);font-style:italic;padding:6px 0}
+  footer{padding:14px 24px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}
+  details{margin-top:8px}
+  summary{cursor:pointer;color:var(--accent);font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🦎 MaculuScript</h1>
+  <span class="sub">Analisador Léxico — Java + jFlex</span>
+  <span class="spacer"></span>
+  <button class="link" id="btnReservadas">Palavras reservadas</button>
+</header>
+
+<main>
+  <!-- Editor -->
+  <section class="card">
+    <h2>Código-fonte (.maculu)</h2>
+    <textarea id="codigo" spellcheck="false"></textarea>
+    <div class="toolbar">
+      <button class="btn" id="btnAnalisar">Analisar ▸</button>
+      <button class="ghost" data-ex="ola">Exemplo: Olá</button>
+      <button class="ghost" data-ex="completo">Exemplo: Completo</button>
+      <button class="ghost" data-ex="erros">Exemplo: com erros</button>
+      <button class="ghost" id="btnLimpar">Limpar</button>
+      <span class="muted" style="margin-left:auto;font-size:12px">Ctrl+Enter para analisar</span>
+    </div>
+  </section>
+
+  <!-- Resultados -->
+  <section class="card">
+    <h2>Resultado</h2>
+    <div class="body">
+      <div class="summary" id="summary">
+        <span class="muted">Cole código à esquerda e clique em <b>Analisar</b>.</span>
+      </div>
+
+      <div id="painelErros"></div>
+
+      <details id="detTokens" open>
+        <summary>Tokens (<span id="nTokens">0</span>)</summary>
+        <div class="scroll"><table id="tabTokens">
+          <thead><tr><th>#</th><th>Linha</th><th>Token</th><th>Atributo</th></tr></thead>
+          <tbody></tbody>
+        </table></div>
+      </details>
+
+      <details id="detSimbolos" open>
+        <summary>Tabela de símbolos (<span id="nSimbolos">0</span>)</summary>
+        <div class="scroll"><table id="tabSimbolos">
+          <thead><tr><th>Identificador</th><th>1ª linha</th></tr></thead>
+          <tbody></tbody>
+        </table></div>
+      </details>
+    </div>
+  </section>
+</main>
+
+<footer>API: <code>POST /api/analisar</code> (corpo = código) · <code>GET /api/reservadas</code> · maculuscript.sytes.net</footer>
+
+<script>
+const EXEMPLOS = {
+  ola:
+`// Primeiro programa em MaculuScript
+classe principal {
+    vazio inicio() {
+        escreva("Ola, MaculuScript!");
+    }
+}`,
+  completo:
+`classe Completo {
+    privado inteiro contador;
+    publico inteiro calcular(inteiro a, inteiro b) {
+        inteiro soma = a + b;
+        soma += 1;
+        contador++;
+        retorna soma;
+    }
+    publico vazio executar() {
+        vector v = novo inteiro[5];
+        para (inteiro i = 0; i < 5; i++) {
+            v[i] = i * i;
+        }
+        logico ok = verdadeiro e nao falso;
+        se (contador == 0 ou ok) {
+            escreva("ramo um");
+        }
+        real r = 3.14;
+        caracter c = 'Z';
+    }
+}`,
+  erros:
+`classe Misturado {
+    inteiro a = 10 @ 2;          // caractere invalido @
+    texto nome = "sem fecho;     // texto nao terminado
+    caracter c = 'ab';           // caracter invalido (2)
+    logico ok = verdadeiro;      // valido
+    inteiro b = 5 ! 3;           // '!' isolado e' erro
+}`
+};
+
+const $ = s => document.querySelector(s);
+const codigo = $('#codigo');
+codigo.value = EXEMPLOS.completo;
+
+function escapeHtml(s){
+  if(s===null||s===undefined) return '';
+  return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+function mostrarAtributo(a){
+  if(a===null) return '<span class="muted">—</span>';
+  // mostra escapes de forma legivel
+  const vis = a.replace(/\n/g,'\\n').replace(/\t/g,'\\t');
+  return '<span class="attr">"'+escapeHtml(vis)+'"</span>';
+}
+
+async function analisar(){
+  const summary = $('#summary');
+  summary.innerHTML = '<span class="muted">A analisar…</span>';
+  let r;
+  try{
+    const resp = await fetch('/api/analisar', {
+      method:'POST',
+      headers:{'Content-Type':'text/plain; charset=utf-8'},
+      body: codigo.value
+    });
+    r = await resp.json();
+  }catch(e){
+    summary.innerHTML = '<span class="pill bad">Falha ao contactar a API: '+escapeHtml(e.message)+'</span>';
+    return;
+  }
+  // Summary
+  const nt=r.tokens.length, ns=r.tabelaSimbolos.length, ne=r.erros.length;
+  $('#nTokens').textContent=nt; $('#nSimbolos').textContent=ns;
+  summary.innerHTML =
+    '<span class="pill">'+nt+' tokens</span>'+
+    '<span class="pill">'+ns+' símbolos</span>'+
+    (r.temErros ? '<span class="pill bad">✗ '+ne+' erro(s)</span>'
+                : '<span class="pill ok">✓ sem erros</span>');
+
+  // Erros
+  const pe=$('#painelErros');
+  if(r.temErros){
+    pe.innerHTML = r.erros.map(e =>
+      '<div class="erro-item"><span class="pos">Linha '+e.linha+', Coluna '+e.coluna+':</span> '
+      + escapeHtml(e.mensagem) + '</div>').join('');
+  } else { pe.innerHTML=''; }
+
+  // Tokens
+  const tb=$('#tabTokens tbody');
+  tb.innerHTML = nt ? r.tokens.map((t,i) =>
+    '<tr><td class="muted">'+(i+1)+'</td><td>'+t.linha+'</td>'
+    +'<td class="tipo">'+t.tipo+'</td><td>'+mostrarAtributo(t.atributo)+'</td></tr>').join('')
+    : '<tr><td colspan="4" class="empty">Sem tokens.</td></tr>';
+
+  // Símbolos
+  const sb=$('#tabSimbolos tbody');
+  sb.innerHTML = ns ? r.tabelaSimbolos.map(s =>
+    '<tr><td class="attr">'+escapeHtml(s.nome)+'</td><td>'+s.primeiraLinha+'</td></tr>').join('')
+    : '<tr><td colspan="2" class="empty">Tabela vazia.</td></tr>';
+}
+
+$('#btnAnalisar').addEventListener('click', analisar);
+$('#btnLimpar').addEventListener('click', ()=>{ codigo.value=''; codigo.focus(); });
+document.querySelectorAll('[data-ex]').forEach(b =>
+  b.addEventListener('click', ()=>{ codigo.value = EXEMPLOS[b.dataset.ex]; analisar(); }));
+codigo.addEventListener('keydown', e=>{
+  if((e.ctrlKey||e.metaKey) && e.key==='Enter'){ e.preventDefault(); analisar(); }
+});
+
+$('#btnReservadas').addEventListener('click', async ()=>{
+  try{
+    const resp = await fetch('/api/reservadas');
+    const lista = await resp.json();
+    const linhas = lista.map(x =>
+      '<tr><td class="attr">'+escapeHtml(x.palavra)+'</td><td class="tipo">'+x.tipo
+      +'</td><td>'+escapeHtml(x.java)+'</td></tr>').join('');
+    const w = window.open('', '_blank');
+    w.document.write('<title>Palavras reservadas</title>'+
+      '<body style="font-family:monospace;background:#0f1115;color:#e6e9ef;padding:20px">'+
+      '<h2>Palavras reservadas ('+lista.length+') — MaculuScript → TipoToken → Java</h2>'+
+      '<table style="border-collapse:collapse" border="0">'+
+      '<tr style="color:#9aa4b2"><th align=left>palavra</th><th align=left>tipo</th><th align=left>java</th></tr>'+
+      linhas+'</table>');
+  }catch(e){ alert('Falha: '+e.message); }
+});
+
+// análise inicial
+analisar();
+</script>
+</body>
+</html>

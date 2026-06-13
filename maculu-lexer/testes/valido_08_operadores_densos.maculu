@@ -1,0 +1,20 @@
+// Teste: todos os operadores, incluindo juntos (maximal munch)
+classe Operadores {
+    vazio m() {
+        inteiro a = 10;
+        a++;
+        a--;
+        a += 2;
+        a -= 3;
+        a *= 4;
+        a /= 5;
+        inteiro resto = a % 3;
+        logico e1 = a == 10;
+        logico e2 = a != 11;
+        logico e3 = a >= 1 e a <= 100;
+        logico e4 = a > 0 ou a < 50;
+        logico e5 = nao e1;
+        inteiro b = a+++a;     // maximal munch: a ++ + a
+        inteiro c = a---a;     // maximal munch: a -- - a
+    }
+}

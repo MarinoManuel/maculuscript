@@ -1,0 +1,15 @@
+/*
+ * Teste misturado: varios erros lexicos + codigo valido a mistura.
+ * Prova a recuperacao em modo panico (lista TODOS os erros e continua
+ * a produzir tokens do codigo valido).
+ */
+classe Misturado {
+    inteiro a = 10 @ 2;          // erro: caractere invalido @
+    texto nome = "sem fecho      // erro: texto nao terminado (ate ao fim da linha)
+    caracter c = 'ab';           // erro: caracter invalido (dois caracteres)
+    inteiro b = 5 # 3;           // erro: caractere invalido #
+
+    logico ok = verdadeiro;      // valido: deve produzir tokens normalmente
+    real x = 1.5;                // valido
+    caracter vazia = '';         // erro: caracter invalido (vazio)
+}

@@ -1,0 +1,17 @@
+[Unit]
+Description=MaculuScript - Analisador Lexico (frontend + API)
+After=network.target
+
+[Service]
+Type=simple
+# >>> AJUSTE este caminho para a pasta 'maculu-lexer' onde clonou o repositorio <<<
+WorkingDirectory=/opt/maculuscript/maculu-lexer
+ExecStart=/usr/bin/java -cp out maculu.ServidorApi 8080 web
+Restart=always
+RestartSec=3
+# (Opcional) correr como um utilizador especifico em vez de root:
+# User=ubuntu
+# Group=ubuntu
+
+[Install]
+WantedBy=multi-user.target

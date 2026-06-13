@@ -1,0 +1,28 @@
+// Estruturas de controlo de fluxo
+classe controlo {
+    vazio executar() {
+        inteiro x = 10;
+
+        se (x > 5 e x < 20) {
+            escreva("intervalo");
+        } senao {
+            escreva("fora");
+        }
+
+        enquanto (x > 0) {
+            x = x - 1;
+        }
+
+        para (inteiro i = 0; i < 10; i++) {
+            escreva(i);
+        }
+
+        escolha (x) {
+            caso 0:
+                escreva("zero");
+                pare;
+            padrao:
+                escreva("outro");
+        }
+    }
+}

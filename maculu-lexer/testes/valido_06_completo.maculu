@@ -1,0 +1,89 @@
+/*
+ * Programa completo de demonstracao da MaculuScript.
+ * Junta vectores, classe, excepcoes, I/O e TODOS os operadores.
+ */
+classe Completo {
+
+    privado inteiro contador;
+    privado estatico inteiro total = 0;
+
+    publico vazio Completo() {
+        este.contador = 0;
+    }
+
+    // Exercita todos os operadores aritmeticos e de atribuicao composta
+    publico inteiro calcular(inteiro a, inteiro b) {
+        inteiro soma  = a + b;
+        inteiro dif   = a - b;
+        inteiro prod  = a * b;
+        inteiro divi  = a / b;
+        inteiro resto = a % b;
+
+        soma  += 1;
+        dif   -= 1;
+        prod  *= 2;
+        divi  /= 2;
+
+        contador++;
+        total--;
+
+        retorna soma + dif + prod + divi + resto;
+    }
+
+    publico vazio executar() {
+        // Vector e indexacao
+        vector numeros = novo inteiro[5];
+        inteiro i = 0;
+        para (i = 0; i < 5; i++) {
+            numeros[i] = i * i;
+        }
+
+        // Ciclo faca-enquanto
+        faca {
+            escreva(numeros[i]);
+            i--;
+        } enquanto (i >= 0);
+
+        // Operadores logicos (palavras) e relacionais
+        logico maior = total > contador;
+        logico condicao = verdadeiro e nao falso;
+        se (contador == 0 ou condicao) {
+            escreva("ramo um");
+        } senao {
+            se (contador != 0 e total <= 10) {
+                continue;
+            }
+        }
+
+        // Escolha com dois pontos
+        escolha (contador) {
+            caso 0:
+                escreva("zero");
+                pare;
+            caso 1:
+                escreva("um");
+                pare;
+            padrao:
+                escreva("outros");
+        }
+
+        // Excepcoes e I/O
+        tente {
+            inteiro x = leia();
+            se (x < 0) {
+                lance "valor negativo";
+            }
+        } capture {
+            escreva("erro capturado");
+        } finalmente {
+            escreva("fim");
+        }
+
+        // Outros tipos e literais
+        texto t = nulo;
+        caracter c = 'Z';
+        real r = 3.14;
+        escreva("Resultado:\t");
+        escreva(calcular(10, 3));
+    }
+}

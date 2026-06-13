@@ -1,0 +1,16 @@
+/*
+ * Teste de stress da recuperacao em modo panico.
+ * Mistura densa de erros de tipos diferentes com codigo valido.
+ */
+classe Stress {
+    inteiro a = 1 @ 2 # 3;       // 2 erros: @ e #
+    texto s = "aberto sem fim;    // erro: texto nao terminado (newline)
+    caracter c = 'xy';           // erro: caracter com 2
+    inteiro b = 4 & 5 | 6;       // 2 erros: & e |
+    logico ok = verdadeiro;      // valido
+    texto bom = "ok \n";         // valido (escape valido)
+    caracter d = '';             // erro: caracter vazio
+    real r = 3.14;               // valido
+    inteiro _z = 7 ~ 8;          // 2 erros: _ e ~
+    escreva(ok);                 // valido
+}

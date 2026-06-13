@@ -1,0 +1,14 @@
+// comentario de linha no inicio do ficheiro
+classe Comentarios { // comentario apos codigo na mesma linha
+    /* comentario de bloco numa unica linha */
+    inteiro a = 1; /* bloco entre codigo */ inteiro b = 2;
+    /* comentario
+       de bloco
+       com varias linhas */
+    inteiro c = 3;
+    // simbolos @ # ~ & "aspas" 'plicas' dentro de comentario de linha NAO sao erro
+    /* simbolos @ # ~ & "aspas" 'plicas' dentro de bloco NAO sao erro */
+    inteiro d = 4;
+    // NAO ha aninhamento: o primeiro */ fecha o bloco; o resto vira codigo
+    /* a /* b */ c */ inteiro nn = 7;
+}

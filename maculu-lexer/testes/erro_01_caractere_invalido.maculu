@@ -1,0 +1,7 @@
+// Teste de caracteres invalidos (@, #, e '!' isolado)
+classe ErroCaractere {
+    inteiro x = 10 @ 5;
+    inteiro y = 3 # 4;
+    inteiro z = 5 ! 2;
+    texto t = "este texto e valido";
+}

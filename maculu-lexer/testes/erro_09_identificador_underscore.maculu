@@ -1,0 +1,8 @@
+// Teste: identificador NAO pode comecar por '_' (o '_' inicial e' erro);
+// mas '_' no meio/fim e' permitido.
+classe Underscore {
+    inteiro _x = 1;       // '_' inicial -> erro; depois 'x' e' identificador
+    inteiro y_ = 2;       // valido (underscore no fim)
+    inteiro a_b_c = 3;    // valido (underscores no meio)
+    inteiro _ = 4;        // '_' isolado -> erro
+}

@@ -1,0 +1,4 @@
+# Artefactos de compilacao (regenerados por ./build.sh no servidor)
+out/
+*.class
+*.java~

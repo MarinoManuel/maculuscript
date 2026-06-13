@@ -1,0 +1,6 @@
+// Teste de comentario de bloco nao terminado
+classe ErroComentario {
+    inteiro x = 1;
+    /* este comentario de bloco comeca aqui
+       mas nunca encontra o fecho ...
+}

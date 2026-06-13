@@ -1,0 +1,13 @@
+// Teste: numeros inteiros, reais e expressoes aritmeticas
+classe Numeros {
+    vazio m() {
+        inteiro zero = 0;
+        inteiro grande = 123456789;
+        real meio = 0.5;
+        real pi = 3.14159;
+        real cem = 100.001;
+        inteiro r1 = 2 + 3 * 4 - 5 / 1 % 2;
+        real r2 = pi * 2.0 + meio;
+        inteiro r3 = (grande - zero) / 1000;
+    }
+}

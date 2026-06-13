@@ -1,0 +1,15 @@
+// Teste: vectores (arrays) e indexacao
+classe Vectores {
+    vazio m() {
+        vector v = novo inteiro[10];
+        v[0] = 1;
+        v[1] = v[0] + 2;
+        v[2] = v[0] * v[1];
+        vector matriz = novo inteiro[3];
+        matriz[0] = 5;
+        inteiro soma = v[0] + v[1] + matriz[0];
+        para (inteiro i = 0; i < 10; i++) {
+            v[i] = i * i;
+        }
+    }
+}

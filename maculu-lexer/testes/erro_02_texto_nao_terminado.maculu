@@ -1,0 +1,5 @@
+// Teste de texto (string) nao terminado
+classe ErroTexto {
+    texto t = "sem fecho;
+    inteiro x = 5;
+}

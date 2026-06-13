@@ -1,0 +1,6 @@
+// Teste: sequencias de escape invalidas em texto (regista erro e continua)
+classe Escapes {
+    texto a = "valido: \n \t \\ fim";
+    texto b = "invalido: \x continua";
+    texto c = "outros: \q e \z aqui";
+}

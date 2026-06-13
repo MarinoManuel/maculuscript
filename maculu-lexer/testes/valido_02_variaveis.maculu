@@ -1,0 +1,13 @@
+// Declaracao de variaveis dos varios tipos e uso de escapes
+classe variaveis {
+    inteiro idade = 25;
+    real altura = 1.75;
+    caracter inicial = 'M';
+    texto nome = "Maria";
+    logico ativo = verdadeiro;
+    logico inativo = falso;
+
+    /* texto com escapes suportados: nova linha, tabulacao,
+       aspas e barra invertida */
+    texto mensagem = "Nome:\t\"Maria\"\nFim.\\";
+}

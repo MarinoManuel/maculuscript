@@ -1,0 +1,6 @@
+// Primeiro programa em MaculuScript: classe minima com escrita no ecra
+classe principal {
+    vazio inicio() {
+        escreva("Ola, MaculuScript!");
+    }
+}

@@ -1,0 +1,8 @@
+// Teste: literais de caracter invalidos (vazio e com mais de um caractere)
+classe Chars {
+    caracter a = '';      // vazio -> erro
+    caracter b = 'xy';    // dois caracteres -> erro
+    caracter c = 'abc';   // tres caracteres -> erro
+    caracter d = 'A';     // valido
+    caracter f = '5';     // valido (digito como caracter)
+}

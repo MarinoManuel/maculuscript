@@ -1,0 +1,15 @@
+// Funcoes com e sem retorno, e chamada de funcao
+classe calculadora {
+    inteiro somar(inteiro a, inteiro b) {
+        retorna a + b;
+    }
+
+    vazio mostrar(inteiro valor) {
+        escreva(valor);
+    }
+
+    vazio principal() {
+        inteiro resultado = somar(3, 4);
+        mostrar(resultado);
+    }
+}

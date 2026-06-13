@@ -1,0 +1,24 @@
+// Classe com atributos privados, construtor, metodos, novo e este
+classe Pessoa {
+    privado texto nome;
+    privado inteiro idade;
+
+    publico vazio Pessoa(texto nome, inteiro idade) {
+        este.nome = nome;
+        este.idade = idade;
+    }
+
+    publico texto obterNome() {
+        retorna este.nome;
+    }
+
+    publico inteiro obterIdade() {
+        retorna este.idade;
+    }
+
+    publico estatico vazio principal() {
+        Pessoa p = novo Pessoa("Ana", 30);
+        escreva(p.obterNome());
+        escreva(p.obterIdade());
+    }
+}
