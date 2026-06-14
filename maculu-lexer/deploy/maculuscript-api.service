@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 # >>> AJUSTE este caminho para a pasta 'maculu-lexer' onde clonou o repositorio <<<
 WorkingDirectory=/opt/maculuscript/maculu-lexer
-ExecStart=/usr/bin/java -cp out maculu.ServidorApi 8080 web
+ExecStart=/usr/bin/java -cp out maculu.ServidorApi 8090 web
 Restart=always
 RestartSec=3
 # (Opcional) correr como um utilizador especifico em vez de root:

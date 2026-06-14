@@ -16,6 +16,6 @@ if [[ ! -d out ]]; then
   exit 1
 fi
 
-PORT="${1:-8080}"
+PORT="${1:-8090}"
 echo ">> MaculuScript Web em http://127.0.0.1:${PORT}  (Ctrl+C para parar)"
 exec java -cp out maculu.ServidorApi "${PORT}" web

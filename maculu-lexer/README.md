@@ -126,6 +126,8 @@ r.temErros();           // boolean
   do docente.
 - Nada é escrito no ecrã dentro de `AnaLex` nem de `AnalisadorLexico`
   (só o `Main` imprime), por isso a mesma lógica serve CLI e servidor.
+- Cada chamada a `analisar(...)` cria **novas** instâncias das tabelas, sem
+  estado global partilhado — seguro para vários pedidos em simultâneo.
 
 ### Servidor web (frontend + API REST)
 
@@ -134,7 +136,7 @@ do próprio JDK (sem dependências) e serve o frontend `web/index.html` mais a A
 
 ```bash
 ./build.sh --no-run          # compila (inclui ServidorApi e JsonUtil)
-./run-api.sh 8080            # abre http://127.0.0.1:8080
+./run-api.sh 8090            # abre http://127.0.0.1:8090
 ```
 
 Endpoints:
@@ -143,8 +145,6 @@ Endpoints:
 - `GET /api/reservadas` — mapeamento reservada → Java em JSON.
 
 Para colocar online (Ubuntu + nginx + HTTPS), ver **[DEPLOY.md](DEPLOY.md)**.
-- Cada chamada a `analisar(...)` cria **novas** instâncias das tabelas, sem
-  estado global partilhado — seguro para vários pedidos em simultâneo.
 
 ---
 

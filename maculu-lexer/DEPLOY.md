@@ -1,12 +1,12 @@
 # Deploy da MaculuScript no servidor Ubuntu (maculuscript.sytes.net)
 
-A aplicação Java serve **o frontend e a API** numa única porta local (8080).
+A aplicação Java serve **o frontend e a API** numa única porta local (8090).
 O **nginx** faz apenas proxy reverso. Não há base de dados nem dependências
 externas — só o JDK.
 
 Resumo do fluxo:
 ```
-Browser ──HTTPS──> nginx (443) ──proxy──> Java (127.0.0.1:8080)  [frontend + /api]
+Browser ──HTTPS──> nginx (443) ──proxy──> Java (127.0.0.1:8090)  [frontend + /api]
 ```
 
 ---
@@ -62,13 +62,13 @@ Isto **gera** o `AnaLex.java` (jFlex) e **compila** tudo para `out/`
 ## 4. Testar manualmente (opcional mas recomendado)
 
 ```bash
-bash run-api.sh 8080
+bash run-api.sh 8090
 ```
 
 Noutro terminal:
 ```bash
-curl http://127.0.0.1:8080/api/reservadas | head -c 200
-printf 'classe X { inteiro i = 1; }' | curl -s -X POST --data-binary @- http://127.0.0.1:8080/api/analisar
+curl http://127.0.0.1:8090/api/reservadas | head -c 200
+printf 'classe X { inteiro i = 1; }' | curl -s -X POST --data-binary @- http://127.0.0.1:8090/api/analisar
 ```
 
 Deve ver JSON. Carregue `Ctrl+C` para parar.
@@ -133,7 +133,7 @@ Abra **https://maculuscript.sytes.net** 🎉
 
 ```bash
 sudo ufw allow 'Nginx Full'     # abre 80 e 443
-# a porta 8080 NAO precisa de ser aberta (fica so' em localhost)
+# a porta 8090 NAO precisa de ser aberta (fica so' em localhost)
 ```
 
 ---
@@ -155,7 +155,7 @@ sudo systemctl restart maculuscript-api
 | 502 Bad Gateway | o serviço Java está a correr? `systemctl status maculuscript-api` |
 | Página não abre | DNS aponta para o IP certo? porta 80/443 abertas? |
 | `nginx -t` falha | sintaxe do bloco; cert ainda não existe (corra o certbot) |
-| Porta 8080 ocupada | mude a porta no `.service` e no `nginx.conf` (têm de coincidir) |
+| Porta 8090 ocupada | mude a porta no `.service` e no `nginx.conf` (têm de coincidir) |
 | Acentos estranhos | já tratado: a API responde sempre em UTF-8 |
 
 ---
