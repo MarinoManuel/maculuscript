@@ -18,7 +18,7 @@
     --txt:#e6e9ef; --muted:#9aa4b2;
     --accent:#6ea8fe; --accent-contrast:#06243d; --ok:#7ee787; --err:#ff7b72;
     --kw:#d2a8ff; --lit:#a5d6ff;
-    --code-bg:#0c0e12; --row-hover:#10141b; --err-bg:#1c1416;
+    --code-bg:#0c0e12; --gutter-bg:#0c0e12; --row-hover:#10141b; --err-bg:#1c1416;
     --scroll-thumb:#3a4250; --shadow:0 8px 30px rgba(0,0,0,.35);
   }
   :root[data-theme="light"]{
@@ -26,9 +26,12 @@
     --txt:#1c2128; --muted:#5b6776;
     --accent:#2563eb; --accent-contrast:#ffffff; --ok:#15803d; --err:#c0392b;
     --kw:#8250df; --lit:#0a3069;
-    --code-bg:#f7f9fc; --row-hover:#f0f3f8; --err-bg:#fdecea;
+    --code-bg:#fbfcfe; --gutter-bg:#f3f5f9; --row-hover:#f0f3f8; --err-bg:#fdecea;
     --scroll-thumb:#c2cad6; --shadow:0 8px 30px rgba(20,30,50,.12);
   }
+
+  /* metricas do editor (TEM de coincidir com as constantes no JS) */
+  :root{ --lh:21px; --pad:14px; }
 
   /* ---------- Base ---------- */
   *{box-sizing:border-box}
@@ -66,7 +69,7 @@
   }
   .iconbtn:hover{border-color:var(--accent); color:var(--accent)}
 
-  /* ---------- Layout principal (app, altura cheia) ---------- */
+  /* ---------- Layout principal ---------- */
   main{
     flex:1 1 auto; min-height:0; display:grid; grid-template-columns:1fr 1fr;
     gap:16px; padding:16px 22px; overflow:hidden;
@@ -82,13 +85,34 @@
   }
   .card .body{flex:1 1 auto; min-height:0; overflow:auto; padding:14px 16px}
 
-  /* ---------- Editor ---------- */
-  textarea{
-    flex:1 1 auto; min-height:0; width:100%; resize:none; border:none; outline:none;
-    background:var(--code-bg); color:var(--txt);
-    font-family:ui-monospace,Consolas,"Courier New",monospace; font-size:14px; line-height:1.55;
-    padding:14px 16px;
+  /* ---------- Editor (gutter + area) ---------- */
+  .editor-body{flex:1 1 auto; min-height:0; display:flex; overflow:hidden; background:var(--code-bg)}
+  .gutter{
+    flex:0 0 auto; overflow:hidden; user-select:none; background:var(--gutter-bg);
+    border-right:1px solid var(--line);
   }
+  .gutter-inner{
+    padding:var(--pad) 10px var(--pad) 14px; text-align:right;
+    font-family:ui-monospace,Consolas,"Courier New",monospace; font-size:13px; line-height:var(--lh);
+    color:var(--muted); will-change:transform;
+  }
+  .gutter-inner .ln{height:var(--lh)}
+  .gutter-inner .ln.err{color:var(--err); font-weight:700}
+  .edit-area{position:relative; flex:1 1 auto; min-height:0; overflow:hidden}
+  .highlight{position:absolute; top:0; left:0; right:0; height:100%;
+             pointer-events:none; z-index:1; will-change:transform}
+  .highlight .band{
+    position:absolute; left:0; right:0; height:var(--lh);
+    background:color-mix(in srgb,var(--err) 16%,transparent);
+    border-left:3px solid var(--err);
+  }
+  textarea{
+    position:absolute; inset:0; width:100%; height:100%; z-index:2;
+    resize:none; border:none; outline:none; background:transparent; color:var(--txt);
+    font-family:ui-monospace,Consolas,"Courier New",monospace; font-size:14px; line-height:var(--lh);
+    padding:var(--pad); white-space:pre; overflow:auto; tab-size:4;
+  }
+
   .toolbar{
     flex:0 0 auto; display:flex; gap:8px; flex-wrap:wrap; align-items:center;
     padding:10px 14px; border-top:1px solid var(--line); background:var(--panel2);
@@ -164,10 +188,7 @@
     width:min(620px,100%); max-height:80vh; display:flex; flex-direction:column;
     box-shadow:var(--shadow); overflow:hidden;
   }
-  .modal-head{
-    display:flex; align-items:center; padding:14px 16px; border-bottom:1px solid var(--line);
-    background:var(--panel2);
-  }
+  .modal-head{display:flex; align-items:center; padding:14px 16px; border-bottom:1px solid var(--line); background:var(--panel2)}
   .modal-head h3{margin:0; font-size:15px}
   .modal-head .spacer{flex:1}
   .modal-body{overflow:auto; padding:6px 16px 14px}
@@ -177,7 +198,6 @@
     body{height:auto; overflow:auto}
     main{grid-template-columns:1fr; overflow:visible}
     .card{min-height:auto}
-    textarea{min-height:300px}
     .card.editor{height:60vh}
   }
 </style>
@@ -195,7 +215,13 @@
   <!-- Editor -->
   <section class="card editor">
     <h2>Código-fonte (.maculu)</h2>
-    <textarea id="codigo" spellcheck="false"></textarea>
+    <div class="editor-body">
+      <div class="gutter"><div class="gutter-inner" id="gutter"></div></div>
+      <div class="edit-area">
+        <div class="highlight" id="highlight"></div>
+        <textarea id="codigo" spellcheck="false" wrap="off"></textarea>
+      </div>
+    </div>
     <div class="toolbar">
       <button class="btn" id="btnAnalisar">Analisar ▸</button>
       <button class="ghost" data-ex="ola">Olá</button>
@@ -261,6 +287,9 @@
 const $ = s => document.querySelector(s);
 const root = document.documentElement;
 
+/* metricas (TEM de coincidir com o CSS --lh / --pad) */
+const LH = 21, PAD = 14;
+
 /* ---------- Tema ---------- */
 const btnTema = $('#btnTema');
 function rotuloTema(){
@@ -315,7 +344,43 @@ classe principal {
 }`
 };
 
+/* ---------- Editor: gutter + destaque de linhas com erro ---------- */
 const codigo = $('#codigo');
+const gutter = $('#gutter');
+const highlight = $('#highlight');
+let erroLinhas = new Set();
+
+function nLinhas(){ return codigo.value.split('\n').length; }
+
+function renderGutter(){
+  const n = nLinhas();
+  let html = '';
+  for (let i = 1; i <= n; i++){
+    html += '<div class="ln' + (erroLinhas.has(i) ? ' err' : '') + '">' + i + '</div>';
+  }
+  gutter.innerHTML = html;
+}
+
+function renderHighlight(){
+  let html = '';
+  erroLinhas.forEach(L => {
+    const top = PAD + (L - 1) * LH;
+    html += '<div class="band" style="top:' + top + 'px"></div>';
+  });
+  highlight.innerHTML = html;
+}
+
+function syncScroll(){
+  const y = codigo.scrollTop;
+  gutter.style.transform = 'translateY(' + (-y) + 'px)';
+  highlight.style.transform = 'translateY(' + (-y) + 'px)';
+}
+
+function atualizarEditor(){ renderGutter(); renderHighlight(); syncScroll(); }
+
+codigo.addEventListener('scroll', syncScroll);
+codigo.addEventListener('input', () => { erroLinhas = new Set(); atualizarEditor(); });
+
 codigo.value = EXEMPLOS.completo;
 
 /* ---------- Helpers ---------- */
@@ -355,8 +420,9 @@ async function analisar(){
     (r.temErros ? '<span class="pill bad">✗ ' + ne + ' erro(s)</span>'
                 : '<span class="pill ok">✓ sem erros</span>');
 
-  // Erros
+  // Erros (lista + destaque no editor)
   const secErros = $('#secaoErros');
+  erroLinhas = new Set(r.erros.map(e => e.linha));
   if (r.temErros){
     secErros.hidden = false;
     $('#painelErros').innerHTML = r.erros.map(e =>
@@ -366,6 +432,7 @@ async function analisar(){
     secErros.hidden = true;
     $('#painelErros').innerHTML = '';
   }
+  atualizarEditor();
 
   // Tokens
   $('#tbTokens').innerHTML = nt
@@ -383,9 +450,9 @@ async function analisar(){
 
 /* ---------- Eventos ---------- */
 $('#btnAnalisar').addEventListener('click', analisar);
-$('#btnLimpar').addEventListener('click', () => { codigo.value=''; codigo.focus(); });
+$('#btnLimpar').addEventListener('click', () => { codigo.value=''; erroLinhas=new Set(); atualizarEditor(); codigo.focus(); });
 document.querySelectorAll('[data-ex]').forEach(b =>
-  b.addEventListener('click', () => { codigo.value = EXEMPLOS[b.dataset.ex]; analisar(); }));
+  b.addEventListener('click', () => { codigo.value = EXEMPLOS[b.dataset.ex]; erroLinhas=new Set(); atualizarEditor(); analisar(); }));
 codigo.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'Enter'){ e.preventDefault(); analisar(); }
 });
@@ -408,7 +475,8 @@ $('#fecharModal').addEventListener('click', fecharModal);
 modal.addEventListener('click', e => { if (e.target === modal) fecharModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharModal(); });
 
-/* análise inicial */
+/* ---------- Arranque ---------- */
+atualizarEditor();
 analisar();
 </script>
 </body>
