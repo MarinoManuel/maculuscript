@@ -171,6 +171,8 @@ Todos com linha + coluna, recolhidos numa lista (modo pânico):
 2. **Texto (string) não terminado** — `"` sem fecho até ao fim da linha/ficheiro.
 3. **Caracter não terminado / inválido** — `'` sem fecho, vazio, ou com mais de um caractere.
 4. **Comentário de bloco não terminado** — `/*` sem `*/` até ao fim do ficheiro.
+5. **Número mal formado** — dígitos colados a letra/underscore (ex.: `4a`, `3.14y`),
+   como em Java/C/Python. (Extra além dos 4 da spec; não afeta código válido.)
 
 ---
 
@@ -201,3 +203,4 @@ O conjunto cresce em tamanho e cobertura (metodologia sugerida pelo docente).
 - `erro_08_escapes_invalidos` — `\x`, `\q`, `\z` em texto.
 - `erro_09_identificador_underscore` — identificador a começar por `_`.
 - `erro_10_stress_recuperacao` — mistura densa de 6 tipos de erro.
+- `erro_11_numero_mal_formado` — `4a`, `12x`, `3.14y`, `9_8` (número colado a letra).

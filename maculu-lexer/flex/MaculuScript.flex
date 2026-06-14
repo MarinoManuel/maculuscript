@@ -140,6 +140,13 @@ COMENT_LINHA = "//" [^\r\n]*
     \"              { buffer.setLength(0); marcarInicio(); yybegin(TEXTO); }
     \'              { buffer.setLength(0); marcarInicio(); yybegin(CARACTER); }
 
+    /* Número mal formado: dígitos (inteiro ou real) colados a letra/underscore
+       (ex.: 4a, 12x, 3.14y). Como em Java/C/Python, é erro léxico. Vem ANTES das
+       regras de número para "ganhar" pelo maximal munch. */
+    {DIGITO}+ ("." {DIGITO}+)? ({LETRA}|_) ({LETRA}|{DIGITO}|_)* {
+        registarErro("Número mal formado: '" + yytext() + "'", yytext());
+    }
+
     /* Números (REAL antes de INTEIRO; o maximal munch também já o garante). */
     {REAL}          { return new Token(yyline + 1, TipoToken.NUM_REAL, yytext()); }
     {INTEIRO}       { return new Token(yyline + 1, TipoToken.NUM_INTEIRO, yytext()); }

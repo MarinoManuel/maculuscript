@@ -1,0 +1,12 @@
+// Teste: numero mal formado (digito colado a letra/underscore) -> erro lexico
+classe Numeros {
+    inteiro a = 4a;        // erro: 4a
+    inteiro b = 12x;       // erro: 12x
+    real c = 3.14y;        // erro: 3.14y
+    inteiro d = 9_8;       // erro: 9_8
+
+    inteiro e1 = 4;        // valido
+    real f = 3.14;         // valido
+    inteiro g = 4 + a;     // valido (numero separado por espaco/operador)
+    inteiro h = numeros2;  // valido (identificador com digito no meio/fim)
+}

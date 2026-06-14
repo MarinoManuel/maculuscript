@@ -118,10 +118,10 @@ public class AnaLex {
     "\1\27\1\30\1\31\2\32\1\33\1\34\1\31\2\35"+
     "\1\36\1\37\2\40\1\41\1\42\1\43\1\44\1\45"+
     "\1\46\1\47\1\50\1\51\1\0\1\52\1\53\1\54"+
-    "\1\55\1\56\1\57\1\60\1\61\1\62\1\63";
+    "\1\55\1\56\1\57\1\60\1\61\1\62\1\63\1\64";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[61];
+    int [] result = new int[62];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -152,11 +152,11 @@ public class AnaLex {
     "\0\u01e0\0\200\0\200\0\200\0\200\0\u0200\0\200\0\u0220"+
     "\0\200\0\u0240\0\u0260\0\200\0\u0280\0\200\0\u0240\0\200"+
     "\0\u02a0\0\200\0\200\0\200\0\200\0\200\0\200\0\200"+
-    "\0\u02c0\0\200\0\u02e0\0\200\0\200\0\200\0\200\0\200"+
-    "\0\200\0\200\0\200\0\200\0\u02e0";
+    "\0\u02c0\0\200\0\u02e0\0\u0300\0\200\0\200\0\200\0\200"+
+    "\0\200\0\200\0\200\0\200\0\200\0\u0320";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[61];
+    int [] result = new int[62];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -188,17 +188,19 @@ public class AnaLex {
     "\13\50\1\51\24\50\41\0\2\6\1\0\1\6\60\0"+
     "\1\52\37\0\1\53\26\0\1\54\10\0\1\55\30\0"+
     "\1\56\6\0\1\57\25\0\1\60\4\0\1\61\4\0"+
-    "\1\62\31\0\1\63\1\0\1\23\43\0\1\64\37\0"+
-    "\1\65\37\0\1\66\33\0\1\31\5\0\1\31\3\0"+
-    "\3\31\2\0\2\36\1\0\1\36\1\0\1\36\1\0"+
-    "\22\36\1\0\6\36\2\0\1\37\43\0\1\67\1\0"+
-    "\1\70\20\0\1\71\2\0\1\72\1\73\2\0\2\43"+
-    "\1\0\1\43\1\0\3\43\1\0\20\43\1\0\6\43"+
-    "\2\0\1\44\55\0\1\74\17\0\2\61\1\0\1\61"+
-    "\1\0\33\61\21\0\1\75\16\0";
+    "\1\62\31\0\1\63\1\0\1\23\5\0\1\64\3\0"+
+    "\3\64\27\0\1\65\37\0\1\66\37\0\1\67\33\0"+
+    "\1\31\5\0\1\31\3\0\3\31\2\0\2\36\1\0"+
+    "\1\36\1\0\1\36\1\0\22\36\1\0\6\36\2\0"+
+    "\1\37\43\0\1\70\1\0\1\71\20\0\1\72\2\0"+
+    "\1\73\1\74\2\0\2\43\1\0\1\43\1\0\3\43"+
+    "\1\0\20\43\1\0\6\43\2\0\1\44\55\0\1\75"+
+    "\17\0\2\61\1\0\1\61\1\0\33\61\21\0\1\76"+
+    "\37\0\1\64\5\0\1\64\3\0\3\64\23\0\1\76"+
+    "\5\0\1\64\3\0\3\64\2\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[768];
+    int [] result = new int[832];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -244,10 +246,10 @@ public class AnaLex {
     "\4\0\1\11\2\1\5\11\2\1\1\11\1\1\1\11"+
     "\2\1\2\11\4\1\4\11\1\1\1\11\1\1\1\11"+
     "\2\1\1\11\1\1\1\11\1\1\1\11\1\1\7\11"+
-    "\1\1\1\11\1\0\11\11\1\1";
+    "\1\1\1\11\1\0\1\1\11\11\1\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[61];
+    int [] result = new int[62];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -807,97 +809,97 @@ public class AnaLex {
             { registarErro("Caractere inválido: '" + yytext() + "'", yytext());
             }
           // fall through
-          case 52: break;
+          case 53: break;
           case 2:
             { /* ignorar */
             }
           // fall through
-          case 53: break;
+          case 54: break;
           case 3:
             { buffer.setLength(0); marcarInicio(); yybegin(TEXTO);
             }
           // fall through
-          case 54: break;
+          case 55: break;
           case 4:
             { return new Token(yyline + 1, TipoToken.MODULO, null);
             }
           // fall through
-          case 55: break;
+          case 56: break;
           case 5:
             { buffer.setLength(0); marcarInicio(); yybegin(CARACTER);
             }
           // fall through
-          case 56: break;
+          case 57: break;
           case 6:
             { return new Token(yyline + 1, TipoToken.ABRE_PAR, null);
             }
           // fall through
-          case 57: break;
+          case 58: break;
           case 7:
             { return new Token(yyline + 1, TipoToken.FECHA_PAR, null);
             }
           // fall through
-          case 58: break;
+          case 59: break;
           case 8:
             { return new Token(yyline + 1, TipoToken.MULTIPLICACAO, null);
             }
           // fall through
-          case 59: break;
+          case 60: break;
           case 9:
             { return new Token(yyline + 1, TipoToken.SOMA, null);
             }
           // fall through
-          case 60: break;
+          case 61: break;
           case 10:
             { return new Token(yyline + 1, TipoToken.VIRGULA, null);
             }
           // fall through
-          case 61: break;
+          case 62: break;
           case 11:
             { return new Token(yyline + 1, TipoToken.SUBTRACAO, null);
             }
           // fall through
-          case 62: break;
+          case 63: break;
           case 12:
             { return new Token(yyline + 1, TipoToken.PONTO, null);
             }
           // fall through
-          case 63: break;
+          case 64: break;
           case 13:
             { return new Token(yyline + 1, TipoToken.DIVISAO, null);
             }
           // fall through
-          case 64: break;
+          case 65: break;
           case 14:
             { return new Token(yyline + 1, TipoToken.NUM_INTEIRO, yytext());
             }
           // fall through
-          case 65: break;
+          case 66: break;
           case 15:
             { return new Token(yyline + 1, TipoToken.DOIS_PONTOS, null);
             }
           // fall through
-          case 66: break;
+          case 67: break;
           case 16:
             { return new Token(yyline + 1, TipoToken.PONTO_VIRGULA, null);
             }
           // fall through
-          case 67: break;
+          case 68: break;
           case 17:
             { return new Token(yyline + 1, TipoToken.MENOR, null);
             }
           // fall through
-          case 68: break;
+          case 69: break;
           case 18:
             { return new Token(yyline + 1, TipoToken.ATRIBUICAO, null);
             }
           // fall through
-          case 69: break;
+          case 70: break;
           case 19:
             { return new Token(yyline + 1, TipoToken.MAIOR, null);
             }
           // fall through
-          case 70: break;
+          case 71: break;
           case 20:
             { String lexema = yytext().toLowerCase();          /* case-insensitive (req. 8) */
         if (reservadas.ehReservada(lexema)) {            /* palavras reservadas (req. 5/6) */
@@ -909,57 +911,57 @@ public class AnaLex {
         return new Token(yyline + 1, TipoToken.IDENTIFICADOR, lexema);
             }
           // fall through
-          case 71: break;
+          case 72: break;
           case 21:
             { return new Token(yyline + 1, TipoToken.ABRE_COLCHETE, null);
             }
           // fall through
-          case 72: break;
+          case 73: break;
           case 22:
             { return new Token(yyline + 1, TipoToken.FECHA_COLCHETE, null);
             }
           // fall through
-          case 73: break;
+          case 74: break;
           case 23:
             { return new Token(yyline + 1, TipoToken.ABRE_CHAVE, null);
             }
           // fall through
-          case 74: break;
+          case 75: break;
           case 24:
             { return new Token(yyline + 1, TipoToken.FECHA_CHAVE, null);
             }
           // fall through
-          case 75: break;
+          case 76: break;
           case 25:
             { buffer.append(yytext());
             }
           // fall through
-          case 76: break;
+          case 77: break;
           case 26:
             { registarErroEm(inicioLinha, inicioColuna,
                                      "Texto (string) não terminado", buffer.toString());
                       yybegin(YYINITIAL);
             }
           // fall through
-          case 77: break;
+          case 78: break;
           case 27:
             { yybegin(YYINITIAL);
                       return new Token(inicioLinha, TipoToken.LITERAL_TEXTO, buffer.toString());
             }
           // fall through
-          case 78: break;
+          case 79: break;
           case 28:
             { registarErro("Sequência de escape inválida em texto", yytext());
             }
           // fall through
-          case 79: break;
+          case 80: break;
           case 29:
             { registarErroEm(inicioLinha, inicioColuna,
                                      "Caracter não terminado", buffer.toString());
                       yybegin(YYINITIAL);
             }
           // fall through
-          case 80: break;
+          case 81: break;
           case 30:
             { yybegin(YYINITIAL);
                       if (buffer.length() == 1) {
@@ -972,112 +974,117 @@ public class AnaLex {
                       }
             }
           // fall through
-          case 81: break;
+          case 82: break;
           case 31:
             { registarErro("Sequência de escape inválida em caracter", yytext());
             }
           // fall through
-          case 82: break;
+          case 83: break;
           case 32:
             { /* consome qualquer caractere, incl. quebras de linha */
             }
           // fall through
-          case 83: break;
+          case 84: break;
           case 33:
             { return new Token(yyline + 1, TipoToken.DIFERENTE, null);
             }
           // fall through
-          case 84: break;
+          case 85: break;
           case 34:
             { return new Token(yyline + 1, TipoToken.MULT_ATRIB, null);
             }
           // fall through
-          case 85: break;
+          case 86: break;
           case 35:
             { return new Token(yyline + 1, TipoToken.INCREMENTO, null);
             }
           // fall through
-          case 86: break;
+          case 87: break;
           case 36:
             { return new Token(yyline + 1, TipoToken.SOMA_ATRIB, null);
             }
           // fall through
-          case 87: break;
+          case 88: break;
           case 37:
             { return new Token(yyline + 1, TipoToken.DECREMENTO, null);
             }
           // fall through
-          case 88: break;
+          case 89: break;
           case 38:
             { return new Token(yyline + 1, TipoToken.SUB_ATRIB, null);
             }
           // fall through
-          case 89: break;
+          case 90: break;
           case 39:
             { marcarInicio(); yybegin(COMENT_BLOCO);
             }
           // fall through
-          case 90: break;
+          case 91: break;
           case 40:
             { /* ignorar comentário de linha */
             }
           // fall through
-          case 91: break;
+          case 92: break;
           case 41:
             { return new Token(yyline + 1, TipoToken.DIV_ATRIB, null);
             }
           // fall through
-          case 92: break;
-          case 42:
-            { return new Token(yyline + 1, TipoToken.MENOR_IGUAL, null);
-            }
-          // fall through
           case 93: break;
-          case 43:
-            { return new Token(yyline + 1, TipoToken.IGUAL, null);
+          case 42:
+            { registarErro("Número mal formado: '" + yytext() + "'", yytext());
             }
           // fall through
           case 94: break;
-          case 44:
-            { return new Token(yyline + 1, TipoToken.MAIOR_IGUAL, null);
+          case 43:
+            { return new Token(yyline + 1, TipoToken.MENOR_IGUAL, null);
             }
           // fall through
           case 95: break;
-          case 45:
-            { buffer.append('"');
+          case 44:
+            { return new Token(yyline + 1, TipoToken.IGUAL, null);
             }
           // fall through
           case 96: break;
-          case 46:
-            { buffer.append('\'');
+          case 45:
+            { return new Token(yyline + 1, TipoToken.MAIOR_IGUAL, null);
             }
           // fall through
           case 97: break;
-          case 47:
-            { buffer.append('\\');
+          case 46:
+            { buffer.append('"');
             }
           // fall through
           case 98: break;
-          case 48:
-            { buffer.append('\n');
+          case 47:
+            { buffer.append('\'');
             }
           // fall through
           case 99: break;
-          case 49:
-            { buffer.append('\t');
+          case 48:
+            { buffer.append('\\');
             }
           // fall through
           case 100: break;
-          case 50:
-            { yybegin(YYINITIAL);
+          case 49:
+            { buffer.append('\n');
             }
           // fall through
           case 101: break;
-          case 51:
-            { return new Token(yyline + 1, TipoToken.NUM_REAL, yytext());
+          case 50:
+            { buffer.append('\t');
             }
           // fall through
           case 102: break;
+          case 51:
+            { yybegin(YYINITIAL);
+            }
+          // fall through
+          case 103: break;
+          case 52:
+            { return new Token(yyline + 1, TipoToken.NUM_REAL, yytext());
+            }
+          // fall through
+          case 104: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }
