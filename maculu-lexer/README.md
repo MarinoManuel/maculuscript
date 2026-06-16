@@ -204,3 +204,4 @@ O conjunto cresce em tamanho e cobertura (metodologia sugerida pelo docente).
 - `erro_09_identificador_underscore` — identificador a começar por `_`.
 - `erro_10_stress_recuperacao` — mistura densa de 6 tipos de erro.
 - `erro_11_numero_mal_formado` — `4a`, `12x`, `3.14y`, `9_8` (número colado a letra).
+## 4. Formato da saída errado
