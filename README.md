@@ -96,3 +96,6 @@ A pasta `testes/` contém ficheiros `.maculu` válidos e com erros para validar 
 
 - [README detalhado](maculu-lexer/README.md)
 - [Deploy em Ubuntu + nginx](maculu-lexer/DEPLOY.md)
+
+- ## Referências
+- "Compilers: Principles, Techniques, and Tools" (Dragon Book)
