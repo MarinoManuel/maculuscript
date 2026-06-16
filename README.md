@@ -86,6 +86,7 @@ O projeto inclui um servidor HTTP simples, sem dependências externas, que serve
 Endereços úteis:
 
 - `POST /api/analisar` — analisa código MaculuScript e devolve tokens, erros e símbolos.
+- Dragon book was used here
 - `GET /api/reservadas` — devolve o mapeamento de palavras reservadas para Java.
 
 ## Testes
