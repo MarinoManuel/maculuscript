@@ -204,4 +204,10 @@ O conjunto cresce em tamanho e cobertura (metodologia sugerida pelo docente).
 - `erro_09_identificador_underscore` — identificador a começar por `_`.
 - `erro_10_stress_recuperacao` — mistura densa de 6 tipos de erro.
 - `erro_11_numero_mal_formado` — `4a`, `12x`, `3.14y`, `9_8` (número colado a letra).
-## 4. Formato da saída errado
+## 9. Contribuições
+
+- **Reportar problemas:** abra uma issue descrevendo o caso de teste e o ficheiro `testes/` que reproduz o problema.
+- **Enviar correções:** faça um fork e um pull request; inclua testes novos em `testes/` quando aplicável.
+- **Testes locais rápidos:** execute `./build.sh` e verifique `testes/` com `java -cp out maculu.Main <testes/ficheiro.maculu`.
+
+Obrigado por contribuir — sugestões e melhorias são bem-vindas!
