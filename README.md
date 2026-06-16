@@ -99,3 +99,5 @@ A pasta `testes/` contÃ©m ficheiros `.maculu` vÃ¡lidos e com erros para validar 
 
 - ## ReferÃªncias
 - "Compilers: Principles, Techniques, and Tools" (Dragon Book)
+
+Alteração de teste realizada por mim.
